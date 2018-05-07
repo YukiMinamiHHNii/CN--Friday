@@ -4,6 +4,11 @@
         "http://hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
     <session-factory>
-        <mapping resource="mappings/Species.hbm.xml"/>
+        <mapping resource="mappings/Ability.hbm.xml"/>
+        <!--<mapping resource="mappings/BattleFormat.hbm.xml"/>-->
+        <!--<mapping resource="mappings/Move.hbm.xml"/>-->
+        <mapping resource="mappings/MoveCategory.hbm.xml"/>
+        <!--<mapping resource="mappings/Species.hbm.xml"/>-->
+        <!--<mapping resource="mappings/Typing.hbm.xml"/>-->
     </session-factory>
 </hibernate-configuration>

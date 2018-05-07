@@ -1,0 +1,21 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="entities.BattleFormat" table="battle_format">
+
+        <meta attribute="class-description">
+            This class contains the ability entity details.
+        </meta>
+
+        <id name="abilityID" type="int" column="ABILITY_ID">
+            <generator class="native"/>
+        </id>
+
+        <property name="name" type="string" column="NAME"/>
+        <property name="description" type="string" column="DESCRIPTION"/>
+
+    </class>
+</hibernate-mapping>

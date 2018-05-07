@@ -49,6 +49,11 @@
             <artifactId>hibernate-hikaricp</artifactId>
             <version>5.2.17.Final</version>
         </dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.11</version>
+        </dependency>
     </dependencies>
 
     <build>

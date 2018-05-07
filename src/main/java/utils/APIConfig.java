@@ -1,9 +1,8 @@
 package utils;
 
 import org.hibernate.SessionFactory;
-import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
-import org.hibernate.service.ServiceRegistry;
+import org.hibernate.cfg.Environment;
 
 import java.util.Properties;
 
@@ -12,14 +11,13 @@ import java.util.Properties;
  */
 public class APIConfig {
 
-    private static SessionFactory configureDB() {
+    public static SessionFactory configureDB() {
 
         Configuration configuration = new Configuration();
         configuration.configure();
         configuration.setProperties(configureConnection());
-        ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();
 
-        return configuration.buildSessionFactory(serviceRegistry);
+        return configuration.buildSessionFactory();
 
     }
 
@@ -27,12 +25,11 @@ public class APIConfig {
 
         Properties props = new Properties();
 
-        props.setProperty("hibernate.connection.driver_class", "com.mysql.jdbc.Driver");
-        props.setProperty("hibernate.connection.url", "jdbc:mysql://localhost:8080/DB");
-        props.setProperty("hibernate.connection.username", "user");
-        props.setProperty("hibernate.connection.password", "password");
-        props.setProperty("hibernate.current_session_context_class", "thread");
-        props.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
+        props.setProperty(Environment.DRIVER, "com.mysql.cj.jdbc.Driver");
+        props.setProperty(Environment.URL, "jdbc:mysql://localhost:3306/poke_data_tools?useLegacyDatetimeCode=false&serverTimezone=UTC");
+        props.setProperty(Environment.USER, "pdt-user");
+        props.setProperty(Environment.PASS, "H567kil16A");
+        props.setProperty(Environment.DIALECT, "org.hibernate.dialect.MySQLDialect");
 
         configureConnectionPool(props);
 
