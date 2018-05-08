@@ -54,7 +54,7 @@ public class AbilityDAO extends DAO {
 
     }
 
-    public Ability readByID(int id){
+    public Ability readByID(int abilityID){
 
         Object ability= null;
         Session session= connect();
@@ -63,7 +63,7 @@ public class AbilityDAO extends DAO {
 
             session.beginTransaction();
             Query query= session.createQuery("FROM Ability WHERE abilityID= :abilityID");
-            query.setParameter("abilityID", id);
+            query.setParameter("abilityID", abilityID);
             ability= query.getSingleResult();
             session.getTransaction().commit();
 
@@ -107,6 +107,15 @@ public class AbilityDAO extends DAO {
             log.debug("Error with transaction: " + e.getMessage());
         }finally {
             disconnect(session);
+        }
+
+    }
+
+    public static void main(String[]args){
+        AbilityDAO dao= new AbilityDAO();
+
+        for(Object obj: dao.readAll()){
+            log.debug(obj.toString());
         }
 
     }

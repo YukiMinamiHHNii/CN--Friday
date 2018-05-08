@@ -12,12 +12,6 @@ public class BattleFormat {
     private String description;
     private List<Species> species;
 
-    public BattleFormat(int formatID, String name, String description) {
-        this.formatID= formatID;
-        this.name= name;
-        this.description= description;
-    }
-
     public int getFormatID(){return formatID;}
 
     public void setFormatID(int formatID){this.formatID=formatID;}

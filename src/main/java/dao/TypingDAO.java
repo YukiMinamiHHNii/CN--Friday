@@ -1,120 +1,111 @@
 package dao;
 
-import entities.Move;
+import entities.Typing;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 
 import java.util.List;
 
 /**
- * Friday on 06/05/2018.
+ * CN--Friday on 07/05/2018.
  */
-public class MoveDAO extends DAO{
+public class TypingDAO extends DAO {
 
-    private static final Logger log= LogManager.getLogger(MoveDAO.class);
+    private static final Logger log= LogManager.getLogger(TypingDAO.class);
 
-    public void createObject(Object move) {
+    public void createObject(Object typing){
 
         Session session= connect();
 
         try{
 
             session.beginTransaction();
-            session.save(move);
+            session.save(typing);
+            session.getTransaction().commit();
+
+        }catch(Exception e){
+            log.debug("Error with transaction: " + e.getMessage());
+        }finally {
+            disconnect(session);
+        }
+
+    }
+
+    public List readAll(){
+
+        List typing= null;
+        Session session= connect();
+
+        try{
+
+            session.beginTransaction();
+            typing=session.createQuery("FROM Typing").list();
+            session.getTransaction().commit();
+
+        }catch(Exception e){
+            log.debug("Error with transaction: " + e.getMessage());
+        }finally {
+            disconnect(session);
+        }
+
+        return typing;
+    }
+
+    public Typing readByID(int typingID){
+
+        Object typing= null;
+        Session session= connect();
+
+        try{
+
+            session.beginTransaction();
+            Query query= session.createQuery("FROM Typing WHERE typingID= :typingID");
+            query.setParameter("typingID", typingID);
+            typing= query.getSingleResult();
+            session.getTransaction().commit();
+
+        }catch(Exception e){
+            log.debug("Error with transaction: " + e.getMessage());
+        }finally {
+            disconnect(session);
+        }
+
+        return (Typing) typing;
+    }
+
+    public void updateObject(Object typing){
+
+        Session session= connect();
+
+        try{
+
+            session.beginTransaction();
+            session.update(typing);
+            session.getTransaction().commit();
+
+        }catch(Exception e){
+            log.debug("Error with transaction: " + e.getMessage());
+        }finally {
+            disconnect(session);
+        }
+
+    }
+
+    public void deleteObject(Object typing){
+
+        Session session= connect();
+
+        try{
+
+            session.beginTransaction();
+            session.delete(typing);
             session.getTransaction().commit();
 
         }catch(Exception e){
             log.debug("Error with transaction: " + e.getMessage());
         }finally{
-            disconnect(session);
-        }
-
-    }
-
-    public List readAll() {
-
-        List moves= null;
-        Session session= connect();
-
-        try{
-
-            session.beginTransaction();
-            moves= session.createQuery("FROM Move").list();
-
-            for(Object move: moves){
-                Hibernate.initialize(((Move)move).getCategory());
-            }
-
-            session.getTransaction().commit();
-
-        }catch(Exception e){
-            log.debug("Error with transaction: " + e.getMessage());
-        }finally {
-            disconnect(session);
-        }
-
-        return moves;
-    }
-
-    public Move readByID(int moveID) {
-
-        Move move= null;
-        Session session= connect();
-
-        try{
-
-            session.beginTransaction();
-            Query query= session.createQuery("FROM Move WHERE moveID= :moveID");
-            query.setParameter("moveID", moveID);
-            move= (Move)query.getSingleResult();
-
-            Hibernate.initialize(move.getCategory());
-
-            session.getTransaction().commit();
-
-        }catch(Exception e){
-            log.debug("Error with transaction: " + e.getMessage());
-        }finally {
-            disconnect(session);
-        }
-
-        return move;
-    }
-
-    public void updateObject(Object move) {
-
-        Session session= connect();
-
-        try{
-
-            session.beginTransaction();
-            session.update(move);
-            session.getTransaction().commit();
-
-        }catch(Exception e){
-            log.debug("Error with transaction: " + e.getMessage());
-        }finally {
-            disconnect(session);
-        }
-
-    }
-
-    public void deleteObject(Object move) {
-
-        Session session= connect();
-
-        try{
-
-            session.beginTransaction();
-            session.delete(move);
-            session.getTransaction().commit();
-
-        }catch(Exception e){
-            log.debug("Error with transaction: " + e.getMessage());
-        }finally {
             disconnect(session);
         }
 

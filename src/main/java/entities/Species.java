@@ -21,19 +21,6 @@ public class Species {
     private List<Typing> typing;
     private List<Move> moves;
 
-    public Species(String speciesID, String name, int hp, int atk, int def, int spAtk, int spDef, int speed, boolean fullyEvolved) {
-        this.speciesID= speciesID;
-        this.name= name;
-        this.hp= hp;
-        this.atk= atk;
-        this.def= def;
-        this.spAtk= spAtk;
-        this.spDef= spDef;
-        this.speed= speed;
-        this.total= hp + atk + def + spAtk + spDef + speed;
-        this.fullyEvolved= fullyEvolved;
-    }
-
     public String getSpeciesID(){return speciesID;}
 
     public void setSpeciesID(String speciesID){this.speciesID=speciesID;}

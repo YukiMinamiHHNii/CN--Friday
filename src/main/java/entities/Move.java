@@ -12,14 +12,6 @@ public class Move {
     private String description;
     private MoveCategory category;
 
-    public Move(int moveID, String name, int power, int accuracy, String description) {
-        this.moveID= moveID;
-        this.name= name;
-        this.power= power;
-        this.accuracy= accuracy;
-        this.description= description;
-    }
-
     public int getMoveID(){return moveID;}
 
     public void setMoveID(int moveID){this.moveID=moveID;}

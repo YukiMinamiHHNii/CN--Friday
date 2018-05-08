@@ -9,12 +9,6 @@ public class Ability {
     private String name;
     private String description;
 
-    public Ability(int abilityID, String name, String description){
-        this.abilityID= abilityID;
-        this.name= name;
-        this.description= description;
-    }
-
     public int getAbilityID() {return abilityID;}
 
     public void setAbilityID(int abilityID) {this.abilityID = abilityID;}

@@ -19,5 +19,10 @@
         <property name="accuracy" type="int" column="ACCURACY"/>
         <property name="description" type="string" column="DESCRIPTION"/>
 
+        <join table="move_move_cat" optional="true">
+            <key column="MOVE_ID" unique="true"/>
+            <many-to-one name="category" column="MOVE_CATEGORY_ID" not-null="true"/>
+        </join>
+
     </class>
 </hibernate-mapping>
