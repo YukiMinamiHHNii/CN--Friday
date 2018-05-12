@@ -1,6 +1,8 @@
 package dao;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import entities.Move;
+import entities.MoveExcerpt;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.Hibernate;
@@ -57,6 +59,28 @@ public class MoveDAO extends DAO{
         }
 
         return moves;
+    }
+
+    public List readAllExcerpt(){
+
+        List moves= null;
+        Session session= connect();
+
+        try{
+
+            session.beginTransaction();
+            moves= session.createQuery("FROM MoveExcerpt me join fetch me.typing join fetch me.category").list();
+            //Join fetch is used to initialize foreign entity values when querying
+            session.getTransaction().commit();
+
+        }catch(Exception e){
+            log.debug("Error with transaction: " + e.getMessage());
+        }finally {
+            disconnect(session);
+        }
+
+        return moves;
+
     }
 
     public Move readByID(int moveID) {
@@ -116,6 +140,23 @@ public class MoveDAO extends DAO{
             log.debug("Error with transaction: " + e.getMessage());
         }finally {
             disconnect(session);
+        }
+
+    }
+
+    public static void main(String[]args){
+
+        MoveDAO dao= new MoveDAO();
+        ObjectMapper mapper= new ObjectMapper();
+
+        try {
+
+            for (Object test : dao.readAllExcerpt()) {
+                log.debug(mapper.writeValueAsString(test));
+            }
+
+        }catch(Exception e){
+            log.debug("Error while converting object to JSON: " + e.getMessage());
         }
 
     }

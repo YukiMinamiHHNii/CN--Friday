@@ -4,15 +4,23 @@
         "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping>
-    <class name="Species" table="Species">
+    <class name="entities.Species" table="Species">
 
         <meta attribute="class-description">
             This class contains the pokemon species details.
         </meta>
 
-        <id name="speciesID" type="String" column="species_id"/>
+        <id name="speciesID" type="string" column="species_id"/>
 
-        <property name="name" column="name" type="String"/>
+        <property name="name" type="string" column="name"/>
+        <property name="hp" type="integer" column="hp"/>
+        <property name="atk" type="integer" column="atk"/>
+        <property name="def" type="integer" column="def"/>
+        <property name="spAtk" type="integer" column="sp_atk"/>
+        <property name="spDef" type="integer" column="sp_def"/>
+        <property name="speed" type="integer" column="speed"/>
+        <property name="total" type="integer" column="total"/>
+        <property name="fullyEvolved" type="boolean" column="fully_evolved"/>
 
     </class>
 </hibernate-mapping>

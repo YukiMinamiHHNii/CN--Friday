@@ -1,6 +1,6 @@
 package entities;
 
-import java.util.List;
+import java.util.Set;
 
 /**
  * Friday on 06/05/2018.
@@ -10,7 +10,7 @@ public class BattleFormat {
     private int formatID;
     private String name;
     private String description;
-    private List<Species> species;
+    private Set<SpeciesEntry> restrictedSpecies;
 
     public int getFormatID(){return formatID;}
 
@@ -24,9 +24,9 @@ public class BattleFormat {
 
     public void setDescription(String description){this.description=description;}
 
-    public List<Species> getSpecies(){return species;}
+    public Set<SpeciesEntry> getRestrictedSpecies() {return restrictedSpecies;}
 
-    public void setSpecies(List<Species> species){this.species=species;}
+    public void setRestrictedSpecies(Set<SpeciesEntry> restrictedSpecies) {this.restrictedSpecies = restrictedSpecies;}
 
     @Override
     public String toString() {
@@ -34,7 +34,7 @@ public class BattleFormat {
                 "formatID=" + formatID +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
-                ", species=" + species +
+                ", restrictedSpecies=" + restrictedSpecies +
                 '}';
     }
 
