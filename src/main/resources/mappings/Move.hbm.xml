@@ -14,6 +14,11 @@
             <generator class="native"/>
         </id>
 
+        <set name="learntBy" table="move_species">
+            <key column="move_id"/>
+            <many-to-many column="species_id" class="entities.SpeciesEntry" unique="true"/>
+        </set>
+
         <property name="name" type="string" column="NAME"/>
         <property name="power" type="int" column="POWER"/>
         <property name="accuracy" type="int" column="ACCURACY"/>
@@ -22,6 +27,11 @@
         <join table="move_move_cat" optional="true">
             <key column="MOVE_ID" unique="true"/>
             <many-to-one name="category" column="MOVE_CATEGORY_ID" not-null="true"/>
+        </join>
+
+        <join table="move_typing" optional="true">
+            <key column="MOVE_ID" unique="false"/>
+            <many-to-one name="typing" column="TYPING_ID" not-null="true"/>
         </join>
 
     </class>

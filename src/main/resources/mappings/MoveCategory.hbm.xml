@@ -4,7 +4,7 @@
         "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping>
-    <class name="entities.MoveCategory" table="move_category">
+    <class name="entities.MoveCategory" table="MOVE_CATEGORY">
 
         <meta attribute="class-description">
             This class contains the move category entity details.

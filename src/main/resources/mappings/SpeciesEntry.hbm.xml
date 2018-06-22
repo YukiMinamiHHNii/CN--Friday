@@ -10,7 +10,7 @@
             This class contains the species entry details.
         </meta>
 
-        <id name="speciesID" type="string" column="species_id">
+        <id name="speciesID" type="string" column="SPECIES_ID">
             <generator class="native"/>
         </id>
 

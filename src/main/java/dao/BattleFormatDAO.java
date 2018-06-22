@@ -15,8 +15,8 @@ public class BattleFormatDAO extends DAO {
 
     private static final Logger log= LogManager.getLogger(BattleFormatDAO.class);
 
-    public void createObject(Object format) {
-
+    public int createObject(Object format) {
+        return 1;
     }
 
     public List readAll() {

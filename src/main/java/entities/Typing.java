@@ -8,6 +8,12 @@ public class Typing {
     private int typingID;
     private String name;
 
+    public Typing(){}
+
+    public Typing(String name){
+        this.name= name;
+    }
+
     public int getTypingID(){return typingID;}
 
     public void setTypingID(int typingID){this.typingID=typingID;}

@@ -9,6 +9,13 @@ public class Ability {
     private String name;
     private String description;
 
+    public Ability(){}
+
+    public Ability(String name, String description) {
+        this.name = name;
+        this.description = description;
+    }
+
     public int getAbilityID() {return abilityID;}
 
     public void setAbilityID(int abilityID) {this.abilityID = abilityID;}

@@ -16,6 +16,19 @@ public class Move {
     private MoveCategory category;
     private Set<SpeciesEntry> learntBy;
 
+    public Move(){}
+
+    public Move(String name, Typing typing, int power, int accuracy, String description,
+                MoveCategory category, Set<SpeciesEntry> learntBy) {
+        this.name = name;
+        this.typing = typing;
+        this.power = power;
+        this.accuracy = accuracy;
+        this.description = description;
+        this.category = category;
+        this.learntBy = learntBy;
+    }
+
     public int getMoveID() {
         return moveID;
     }
@@ -32,17 +45,11 @@ public class Move {
         this.name = name;
     }
 
-    public Typing getTyping() {
-        return typing;
-    }
+    public Typing getTyping() {return typing;}
 
-    public void setTyping(Typing typing) {
-        this.typing = typing;
-    }
+    public void setTyping(Typing typing) {this.typing = typing;}
 
-    public int getPower() {
-        return power;
-    }
+    public int getPower() {return power;}
 
     public void setPower(int power) {
         this.power = power;
@@ -64,13 +71,9 @@ public class Move {
         this.description = description;
     }
 
-    public MoveCategory getCategory() {
-        return category;
-    }
+    public MoveCategory getCategory() {return category;}
 
-    public void setCategory(MoveCategory category) {
-        this.category = category;
-    }
+    public void setCategory(MoveCategory category) {this.category = category;}
 
     public Set<SpeciesEntry> getLearntBy() {
         return learntBy;

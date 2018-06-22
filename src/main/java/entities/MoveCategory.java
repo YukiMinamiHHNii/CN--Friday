@@ -8,6 +8,12 @@ public class MoveCategory {
     private int moveCategoryID;
     private String name;
 
+    public MoveCategory() {}
+
+    public MoveCategory(String name) {
+        this.name = name;
+    }
+
     public int getMoveCategoryID(){return moveCategoryID;}
 
     public void setMoveCategoryID(int moveCategoryID){this.moveCategoryID=moveCategoryID;}
