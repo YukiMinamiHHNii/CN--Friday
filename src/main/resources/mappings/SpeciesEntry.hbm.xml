@@ -4,7 +4,7 @@
         "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping>
-    <class name="entities.SpeciesEntry" table="SPECIES">
+    <class name="entities.SpeciesEntry" table="species">
 
         <meta attribute="class-description">
             This class contains the species entry details.

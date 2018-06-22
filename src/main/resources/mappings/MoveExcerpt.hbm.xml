@@ -4,7 +4,7 @@
         "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping>
-    <class name="entities.MoveExcerpt" table="MOVE">
+    <class name="entities.MoveExcerpt" table="move">
 
         <meta attribute="class-description">
             This class contains the move excerpt entity details.
@@ -18,12 +18,12 @@
         <property name="power" type="int" column="POWER"/>
         <property name="accuracy" type="int" column="ACCURACY"/>
 
-        <join table="MOVE_TYPING" optional="false">
+        <join table="move_typing" optional="false">
             <key column="MOVE_ID"/>
             <many-to-one name="typing" column="TYPING_ID" not-null="true" unique="true"/>
         </join>
 
-        <join table="MOVE_MOVE_CAT" optional="false">
+        <join table="move_move_cat" optional="false">
             <key column="MOVE_ID"/>
             <many-to-one name="category" column="MOVE_CATEGORY_ID" not-null="true" unique="true"/>
         </join>
