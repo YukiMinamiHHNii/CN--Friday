@@ -19,7 +19,7 @@
 
         <set name="restrictedSpecies" table="format_species">
             <key column="format_id"/>
-            <many-to-many column="species_id" class="entities.SpeciesEntry"/>
+            <many-to-many column="species_id" class="entities.SpeciesEntry" unique="true"/>
         </set>
 
     </class>

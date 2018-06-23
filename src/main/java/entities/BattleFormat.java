@@ -12,6 +12,15 @@ public class BattleFormat {
     private String description;
     private Set<SpeciesEntry> restrictedSpecies;
 
+    public BattleFormat() {
+    }
+
+    public BattleFormat(String name, String description, Set<SpeciesEntry> restrictedSpecies) {
+        this.name = name;
+        this.description = description;
+        this.restrictedSpecies = restrictedSpecies;
+    }
+
     public int getFormatID(){return formatID;}
 
     public void setFormatID(int formatID){this.formatID=formatID;}

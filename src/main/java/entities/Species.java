@@ -19,7 +19,6 @@ public class Species {
     private boolean fullyEvolved;
     private List<Ability> abilities;
     private List<Typing> typing;
-    private List<Learnset> moves;
 
     public String getSpeciesID(){return speciesID;}
 
@@ -69,10 +68,6 @@ public class Species {
 
     public void setTyping(List<Typing> typing){this.typing=typing;}
 
-    public List<Learnset> getLearnset(){return moves;}
-    
-    public void setLearnset(List<Learnset> moves){this.moves=moves;}
-
     @Override
     public String toString() {
         return "Species{" +
@@ -88,7 +83,6 @@ public class Species {
                 ", fullyEvolved=" + fullyEvolved +
                 ", abilities=" + abilities +
                 ", typing=" + typing +
-                ", moves=" + moves +
                 '}';
     }
 

@@ -143,61 +143,61 @@ public class MoveDAO extends DAO{
 
     }
 
-//    public static void main(String[]args){
-//        MoveDAO dao= new MoveDAO();
-//        TypingDAO typingDAO= new TypingDAO();
-//        MoveCategoryDAO moveCategoryDAO= new MoveCategoryDAO();
-//        SpeciesDAO speciesDAO= new SpeciesDAO();
-//
-//        Set<SpeciesEntry> moveSpecies= new HashSet<>();
-//        moveSpecies.add(speciesDAO.readEntryByID("253-0"));
-//        moveSpecies.add(speciesDAO.readEntryByID("254-0"));
-//        moveSpecies.add(speciesDAO.readEntryByID("254-1"));
-//        moveSpecies.add(speciesDAO.readEntryByID("255-0"));
-//        moveSpecies.add(speciesDAO.readEntryByID("256-0"));
-//        moveSpecies.add(speciesDAO.readEntryByID("257-0"));
-//        moveSpecies.add(speciesDAO.readEntryByID("257-1"));
-//        moveSpecies.add(speciesDAO.readEntryByID("258-0"));
-//        moveSpecies.add(speciesDAO.readEntryByID("259-0"));
-//        moveSpecies.add(speciesDAO.readEntryByID("26-0"));
-//        moveSpecies.add(speciesDAO.readEntryByID("26-1"));
-//
-//        ObjectMapper mapper= new ObjectMapper();
-//
-//        try {
-//            log.debug("Create object test");
-//            Move nObject= new Move("TestMove", typingDAO.readByID(1), 999, 999, "This is a createMove test",
-//                    moveCategoryDAO.readByID(2), moveSpecies);
-//            int objectID= dao.createObject(nObject);
-//            log.debug("New object id: " + objectID);
-//
-//            log.debug("Read all test");
-//            for (Object obj : dao.readAll()) {
-//                log.debug("Reading all objects: " + mapper.writeValueAsString(obj));
-//            }
-//
-//            log.debug("Read by ID test");
-//            Move testObject= dao.readByID(objectID);
-//            log.debug("Reading by ID: " + mapper.writeValueAsString(testObject));
-//
-//            log.debug("Update test");
-//            dao.updateObject(testObject);
-//            log.debug("Update result: " + mapper.writeValueAsString(objectID));
-//
-//            log.debug("Delete test");
-//            dao.deleteObject(testObject);
-//            for (Object obj : dao.readAll()) {
-//                log.debug(mapper.writeValueAsString(obj));
-//            }
-//
-//            log.debug("Reading all excerpts");
-//            for (Object obj: dao.readAllExcerpt()){
-//                log.debug(mapper.writeValueAsString(obj));
-//            }
-//
-//        } catch (Exception e) {
-//            log.debug("Error while converting object to JSON: " + e.getMessage());
-//        }
-//    }
+    public static void main(String[]args){
+        MoveDAO dao= new MoveDAO();
+        TypingDAO typingDAO= new TypingDAO();
+        MoveCategoryDAO moveCategoryDAO= new MoveCategoryDAO();
+        SpeciesDAO speciesDAO= new SpeciesDAO();
+
+        Set<SpeciesEntry> moveSpecies= new HashSet<>();
+        moveSpecies.add(speciesDAO.readEntryByID("253-0"));
+        moveSpecies.add(speciesDAO.readEntryByID("254-0"));
+        moveSpecies.add(speciesDAO.readEntryByID("254-1"));
+        moveSpecies.add(speciesDAO.readEntryByID("255-0"));
+        moveSpecies.add(speciesDAO.readEntryByID("256-0"));
+        moveSpecies.add(speciesDAO.readEntryByID("257-0"));
+        moveSpecies.add(speciesDAO.readEntryByID("257-1"));
+        moveSpecies.add(speciesDAO.readEntryByID("258-0"));
+        moveSpecies.add(speciesDAO.readEntryByID("259-0"));
+        moveSpecies.add(speciesDAO.readEntryByID("26-0"));
+        moveSpecies.add(speciesDAO.readEntryByID("26-1"));
+
+        ObjectMapper mapper= new ObjectMapper();
+
+        try {
+            log.debug("Create object test");
+            Move nObject= new Move("TestMove", typingDAO.readByID(1), 999, 999, "This is a createMove test",
+                    moveCategoryDAO.readByID(2), moveSpecies);
+            int objectID= dao.createObject(nObject);
+            log.debug("New object id: " + objectID);
+
+            log.debug("Read all test");
+            for (Object obj : dao.readAll()) {
+                log.debug("Reading all objects: " + mapper.writeValueAsString(obj));
+            }
+
+            log.debug("Read by ID test");
+            Move testObject= dao.readByID(objectID);
+            log.debug("Reading by ID: " + mapper.writeValueAsString(testObject));
+
+            log.debug("Update test");
+            dao.updateObject(testObject);
+            log.debug("Update result: " + mapper.writeValueAsString(dao.readByID(objectID)));
+
+            log.debug("Delete test");
+            dao.deleteObject(testObject);
+            for (Object obj : dao.readAll()) {
+                log.debug(mapper.writeValueAsString(obj));
+            }
+
+            log.debug("Reading all excerpts");
+            for (Object obj: dao.readAllExcerpt()){
+                log.debug(mapper.writeValueAsString(obj));
+            }
+
+        } catch (Exception e) {
+            log.debug("Error while converting object to JSON: " + e.getMessage());
+        }
+    }
 
 }
