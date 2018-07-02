@@ -34,7 +34,7 @@ public abstract class DAO {
         session.close();
     }
 
-    abstract public int createObject(Object input);
+    abstract public Object createObject(Object input);
     abstract public List readAll();
     abstract public void updateObject(Object input);
     abstract public void deleteObject(Object input);

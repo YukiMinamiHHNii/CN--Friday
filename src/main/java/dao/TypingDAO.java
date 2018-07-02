@@ -16,7 +16,7 @@ public class TypingDAO extends DAO {
 
     private static final Logger log= LogManager.getLogger(TypingDAO.class);
 
-    public int createObject(Object typing){
+    public Object createObject(Object typing){
 
         int result= -1;
         Session session= connect();
@@ -123,7 +123,7 @@ public class TypingDAO extends DAO {
         try {
             log.debug("Create object test");
             Typing nObject= new Typing("TypingTest");
-            int objectID= dao.createObject(nObject);
+            int objectID= (int)dao.createObject(nObject);
             log.debug("New object id: " +objectID);
 
             log.debug("Read all test");

@@ -18,7 +18,7 @@ public class BattleFormatDAO extends DAO {
 
     private static final Logger log= LogManager.getLogger(BattleFormatDAO.class);
 
-    public int createObject(Object format) {
+    public Object createObject(Object format) {
 
         int result= -1;
         Session session= connect();
@@ -161,7 +161,7 @@ public class BattleFormatDAO extends DAO {
         try {
             log.debug("Create object test");
             BattleFormat nObject= new BattleFormat("TestBattleFormat", "CreateBattleFormat test", formatSpecies);
-            int objectID= dao.createObject(nObject);
+            int objectID= (int)dao.createObject(nObject);
             log.debug("New object id: " + objectID);
 
             log.debug("Read all test");

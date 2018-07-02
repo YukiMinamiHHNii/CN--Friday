@@ -22,5 +22,20 @@
         <property name="total" type="integer" column="total"/>
         <property name="fullyEvolved" type="boolean" column="fully_evolved"/>
 
+        <set name="abilities" table="species_ability">
+            <key column="species_id"/>
+            <many-to-many column="ability_id" class="entities.Ability" unique="true"/>
+        </set>
+
+        <set name="typing" table="species_typing">
+            <key column="species_id"/>
+            <many-to-many column="typing_id" class="entities.Typing" unique="true"/>
+        </set>
+
+        <set name="learnset" table="move_species">
+            <key column="species_id"/>
+            <many-to-many column="move_id" class="entities.MoveExcerpt" unique="true"/>
+        </set>
+
     </class>
 </hibernate-mapping>

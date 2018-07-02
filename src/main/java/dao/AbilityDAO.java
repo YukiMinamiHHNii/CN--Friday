@@ -16,7 +16,7 @@ public class AbilityDAO extends DAO {
 
     private static final Logger log = LogManager.getLogger(AbilityDAO.class);
 
-    public int createObject(Object ability){
+    public Object createObject(Object ability){
 
         int result=-1;
         Session session= connect();
@@ -123,7 +123,7 @@ public class AbilityDAO extends DAO {
         try {
             log.debug("Create object test");
             Ability nObject= new Ability("AbilityTest", "TestAbilityDescription");
-            int objectID= dao.createObject(nObject);
+            int objectID= (int)dao.createObject(nObject);
             log.debug("New object id: " +objectID);
 
             log.debug("Read all test");

@@ -1,6 +1,6 @@
 package entities;
 
-import java.util.List;
+import java.util.Set;
 
 /**
  * CN--Friday on 30/04/2018.
@@ -17,8 +17,28 @@ public class Species {
     private int speed;
     private int total;
     private boolean fullyEvolved;
-    private List<Ability> abilities;
-    private List<Typing> typing;
+    private Set<Ability> abilities;
+    private Set<Typing> typing;
+    private Set<MoveExcerpt> learnset;
+
+    public Species() {}
+
+    public Species(String speciesID, String name, int hp, int atk, int def, int spAtk, int spDef, int speed, int total,
+                   boolean fullyEvolved, Set<Ability> abilities, Set<Typing> typing, Set<MoveExcerpt> learnset) {
+        this.speciesID = speciesID;
+        this.name = name;
+        this.hp = hp;
+        this.atk = atk;
+        this.def = def;
+        this.spAtk = spAtk;
+        this.spDef = spDef;
+        this.speed = speed;
+        this.total = total;
+        this.fullyEvolved = fullyEvolved;
+        this.abilities = abilities;
+        this.typing = typing;
+        this.learnset = learnset;
+    }
 
     public String getSpeciesID(){return speciesID;}
 
@@ -60,13 +80,17 @@ public class Species {
 
     public void setFullyEvolved(boolean fullyEvolved) {this.fullyEvolved = fullyEvolved;}
 
-    public List<Ability> getAbilities(){return abilities;}
+    public Set<Ability> getAbilities() {return abilities;}
 
-    public void setAbilities(List<Ability> abilities){this.abilities=abilities;}
+    public void setAbilities(Set<Ability> abilities) {this.abilities = abilities;}
 
-    public List<Typing> getTyping(){return typing;}
+    public Set<Typing> getTyping(){return typing;}
 
-    public void setTyping(List<Typing> typing){this.typing=typing;}
+    public void setTyping(Set<Typing> typing){this.typing=typing;}
+
+    public Set<MoveExcerpt> getLearnset() {return learnset;}
+
+    public void setLearnset(Set<MoveExcerpt> learnset) {this.learnset = learnset;}
 
     @Override
     public String toString() {
@@ -83,6 +107,7 @@ public class Species {
                 ", fullyEvolved=" + fullyEvolved +
                 ", abilities=" + abilities +
                 ", typing=" + typing +
+                ", learnset=" + learnset +
                 '}';
     }
 

@@ -11,8 +11,8 @@
         <mapping resource="mappings/MoveExcerpt.hbm.xml"/>
         <mapping resource="mappings/BattleFormat.hbm.xml"/>
         <mapping resource="mappings/BattleFormatExcerpt.hbm.xml"/>
-        <!--<mapping resource="mappings/Species.hbm.xml"/>-->
+        <mapping resource="mappings/Species.hbm.xml"/>
         <mapping resource="mappings/SpeciesEntry.hbm.xml"/>
-        <!--<mapping resource="mappings/SpeciesExcerpt.hbm.xml"/>-->
+        <mapping resource="mappings/SpeciesExcerpt.hbm.xml"/>
     </session-factory>
 </hibernate-configuration>

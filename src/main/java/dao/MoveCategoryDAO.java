@@ -17,7 +17,7 @@ public class MoveCategoryDAO extends DAO {
 
     private static final Logger log= LogManager.getLogger(MoveCategoryDAO.class);
 
-    public int createObject(Object moveCat) {
+    public Object createObject(Object moveCat) {
 
         int result= -1;
 
@@ -127,7 +127,7 @@ public class MoveCategoryDAO extends DAO {
         try {
             log.debug("Create object test");
             MoveCategory nObject= new MoveCategory("MoveCategoryTest");
-            int objectID= dao.createObject(nObject);
+            int objectID= (int)dao.createObject(nObject);
             log.debug("New object id: " +objectID);
 
             log.debug("Read all test");

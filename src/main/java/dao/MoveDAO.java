@@ -18,7 +18,7 @@ public class MoveDAO extends DAO{
 
     private static final Logger log= LogManager.getLogger(MoveDAO.class);
 
-    public int createObject(Object move) {
+    public Object createObject(Object move) {
 
         int result= -1;
         Session session= connect();
@@ -107,6 +107,31 @@ public class MoveDAO extends DAO{
         return move;
     }
 
+    public MoveExcerpt readExcerptByID(int moveID){
+
+        MoveExcerpt moveExcerpt= null;
+        Session session= connect();
+
+        try{
+
+            session.beginTransaction();
+            Query query= session.createQuery("FROM MoveExcerpt me JOIN FETCH me.typing JOIN FETCH me.category " +
+                    "WHERE me.moveID= :moveID");
+            query.setParameter("moveID", moveID);
+            moveExcerpt= (MoveExcerpt)query.getSingleResult();
+            session.getTransaction().commit();
+
+        }catch(Exception e){
+            log.debug("Error with transaction: " + e.getMessage());
+        }finally {
+            disconnect(session);
+        }
+
+        return moveExcerpt;
+
+    }
+
+
     public void updateObject(Object move) {
 
         Session session= connect();
@@ -168,7 +193,7 @@ public class MoveDAO extends DAO{
             log.debug("Create object test");
             Move nObject= new Move("TestMove", typingDAO.readByID(1), 999, 999, "This is a createMove test",
                     moveCategoryDAO.readByID(2), moveSpecies);
-            int objectID= dao.createObject(nObject);
+            int objectID= (int)dao.createObject(nObject);
             log.debug("New object id: " + objectID);
 
             log.debug("Read all test");
