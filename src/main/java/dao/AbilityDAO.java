@@ -59,6 +59,28 @@ public class AbilityDAO extends DAO {
 
     }
 
+    public List readByNameDesc(String input) {
+        List abilities= null;
+        Session session= connect();
+
+        try {
+
+            session.beginTransaction();
+            Query query= session.createQuery("FROM Ability a WHERE a.name LIKE :input " +
+                    "OR a.description LIKE :input");
+            query.setParameter("input", "%" + input + "%");
+            abilities= query.getResultList();
+            session.getTransaction().commit();
+
+        } catch (Exception e) {
+            log.debug("Error with transaction: " + e.getMessage());
+        } finally {
+            disconnect(session);
+        }
+
+        return abilities;
+    }
+
     public Ability readByID(int abilityID){
 
         Object ability= null;
@@ -80,15 +102,17 @@ public class AbilityDAO extends DAO {
 
     }
 
-    public void updateObject(Object ability){
+    public Object updateObject(Object ability){
 
         Session session= connect();
+        Object result= null;
 
         try{
 
             session.beginTransaction();
             session.update(ability);
             session.getTransaction().commit();
+            result= ability;
 
         }catch(Exception e){
             log.debug("Error with transaction: " + e.getMessage());
@@ -96,23 +120,29 @@ public class AbilityDAO extends DAO {
             disconnect(session);
         }
 
+        return result;
+
     }
 
-    public void deleteObject(Object ability){
+    public boolean deleteObject(Object ability){
 
         Session session= connect();
+        boolean result= false;
 
         try{
 
             session.beginTransaction();
             session.delete(ability);
             session.getTransaction().commit();
+            result= true;
 
         }catch (Exception e){
             log.debug("Error with transaction: " + e.getMessage());
         }finally {
             disconnect(session);
         }
+
+        return result;
 
     }
 
@@ -131,17 +161,21 @@ public class AbilityDAO extends DAO {
                 log.debug(mapper.writeValueAsString(obj));
             }
 
+            log.debug("Read by name/desc test");
+            for (Object obj : dao.readByNameDesc("veil")) {
+                log.debug(mapper.writeValueAsString(obj));
+            }
+
             log.debug("Read by ID test");
             Ability testObject= dao.readByID(objectID);
             log.debug("Reading by ID: " + mapper.writeValueAsString(testObject));
 
             log.debug("Update test");
             testObject.setDescription("This is a test for object: " + objectID);
-            dao.updateObject(testObject);
-            log.debug("Update result: " + mapper.writeValueAsString(dao.readByID(objectID)));
+            log.debug("Update result: " + mapper.writeValueAsString(dao.updateObject(testObject)));
 
             log.debug("Delete test");
-            dao.deleteObject(testObject);
+            log.debug("Delete operation result: " + dao.deleteObject(testObject));
             for (Object obj : dao.readAll()) {
                 log.debug(mapper.writeValueAsString(obj));
             }

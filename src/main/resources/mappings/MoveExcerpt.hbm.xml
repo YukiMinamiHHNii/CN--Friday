@@ -17,6 +17,7 @@
         <property name="name" type="string" column="NAME"/>
         <property name="power" type="int" column="POWER"/>
         <property name="accuracy" type="int" column="ACCURACY"/>
+        <property name="description" type="string" column="DESCRIPTION"/>
 
         <join table="move_typing" optional="false">
             <key column="MOVE_ID"/>

@@ -39,7 +39,6 @@ public class TypingDAO extends DAO {
     }
 
     public List readAll(){
-
         List typing= null;
         Session session= connect();
 
@@ -47,6 +46,27 @@ public class TypingDAO extends DAO {
 
             session.beginTransaction();
             typing=session.createQuery("FROM Typing").list();
+            session.getTransaction().commit();
+
+        }catch(Exception e){
+            log.debug("Error with transaction: " + e.getMessage());
+        }finally {
+            disconnect(session);
+        }
+
+        return typing;
+    }
+
+    public List readByNameDesc(String input) {
+        List typing= null;
+        Session session= connect();
+
+        try{
+
+            session.beginTransaction();
+            Query query= session.createQuery("FROM Typing t WHERE t.name LIKE :input");
+            query.setParameter("input", "%" + input + "%");
+            typing= query.getResultList();
             session.getTransaction().commit();
 
         }catch(Exception e){
@@ -80,15 +100,17 @@ public class TypingDAO extends DAO {
         return (Typing) typing;
     }
 
-    public void updateObject(Object typing){
+    public Object updateObject(Object typing){
 
         Session session= connect();
+        Object result= null;
 
         try{
 
             session.beginTransaction();
             session.update(typing);
             session.getTransaction().commit();
+            result= typing;
 
         }catch(Exception e){
             log.debug("Error with transaction: " + e.getMessage());
@@ -96,23 +118,29 @@ public class TypingDAO extends DAO {
             disconnect(session);
         }
 
+        return result;
+
     }
 
-    public void deleteObject(Object typing){
+    public boolean deleteObject(Object typing){
 
         Session session= connect();
+        boolean result= false;
 
         try{
 
             session.beginTransaction();
             session.delete(typing);
             session.getTransaction().commit();
+            result= true;
 
         }catch(Exception e){
             log.debug("Error with transaction: " + e.getMessage());
         }finally{
             disconnect(session);
         }
+
+        return result;
 
     }
 
@@ -131,17 +159,21 @@ public class TypingDAO extends DAO {
                 log.debug(mapper.writeValueAsString(obj));
             }
 
+            log.debug("Read by name/desc test");
+            for (Object obj : dao.readByNameDesc("ing")) {
+                log.debug(mapper.writeValueAsString(obj));
+            }
+
             log.debug("Read by ID test");
             Typing testObject= dao.readByID(objectID);
             log.debug("Reading by ID: " + mapper.writeValueAsString(testObject));
 
             log.debug("Update test");
             testObject.setName("This is a test for object: " + objectID);
-            dao.updateObject(testObject);
-            log.debug("Update result: " + mapper.writeValueAsString(dao.readByID(objectID)));
+            log.debug("Update result: " + mapper.writeValueAsString(dao.updateObject(testObject)));
 
             log.debug("Delete test");
-            dao.deleteObject(testObject);
+            log.debug("Delete operation result: " + dao.deleteObject(testObject));
             for (Object obj : dao.readAll()) {
                 log.debug(mapper.writeValueAsString(obj));
             }

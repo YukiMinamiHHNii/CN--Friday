@@ -63,7 +63,6 @@ public class MoveDAO extends DAO{
     }
 
     public List readAllExcerpt(){
-
         List moves= null;
         Session session= connect();
 
@@ -81,7 +80,29 @@ public class MoveDAO extends DAO{
         }
 
         return moves;
+    }
 
+    public List readByNameDesc(String input) {
+        List moves= null;
+        Session session= connect();
+
+        try{
+
+            session.beginTransaction();
+            Query query= session.createQuery("FROM MoveExcerpt me JOIN FETCH me.typing JOIN FETCH me.category " +
+                    "WHERE me.name LIKE :input OR me.description LIKE :input");
+            query.setParameter("input", "%" + input + "%");
+            moves= query.getResultList();
+            //(left, right, inner) Join fetch is used to initialize foreign entity values when querying
+            session.getTransaction().commit();
+
+        }catch(Exception e){
+            log.debug("Error with transaction: " + e.getMessage());
+        }finally {
+            disconnect(session);
+        }
+
+        return moves;
     }
 
     public Move readByID(int moveID) {
@@ -131,16 +152,17 @@ public class MoveDAO extends DAO{
 
     }
 
-
-    public void updateObject(Object move) {
+    public Object updateObject(Object move) {
 
         Session session= connect();
+        Object result= null;
 
         try{
 
             session.beginTransaction();
             session.update(move);
             session.getTransaction().commit();
+            result= move;
 
         }catch(Exception e){
             log.debug("Error with transaction: " + e.getMessage());
@@ -148,23 +170,29 @@ public class MoveDAO extends DAO{
             disconnect(session);
         }
 
+        return result;
+
     }
 
-    public void deleteObject(Object move) {
+    public boolean deleteObject(Object move) {
 
         Session session= connect();
+        boolean result= false;
 
         try{
 
             session.beginTransaction();
             session.delete(move);
             session.getTransaction().commit();
+            result= true;
 
         }catch(Exception e){
             log.debug("Error with transaction: " + e.getMessage());
         }finally {
             disconnect(session);
         }
+
+        return result;
 
     }
 
@@ -201,20 +229,20 @@ public class MoveDAO extends DAO{
                 log.debug("Reading all objects: " + mapper.writeValueAsString(obj));
             }
 
+            log.debug("Read by name/desc test");
+            for (Object obj : dao.readByNameDesc("Placeholder")) {
+                log.debug(mapper.writeValueAsString(obj));
+            }
+
             log.debug("Read by ID test");
             Move testObject= dao.readByID(objectID);
             log.debug("Reading by ID: " + mapper.writeValueAsString(testObject));
 
             log.debug("Update test");
-            dao.updateObject(testObject);
-            log.debug("Update result: " + mapper.writeValueAsString(dao.readByID(objectID)));
+            log.debug("Update result: " + mapper.writeValueAsString(dao.updateObject(testObject)));
 
             log.debug("Delete test");
-            dao.deleteObject(testObject);
-            for (Object obj : dao.readAll()) {
-                log.debug(mapper.writeValueAsString(obj));
-            }
-
+            log.debug("Delete operation result: " + dao.deleteObject(testObject));
             log.debug("Reading all excerpts");
             for (Object obj: dao.readAllExcerpt()){
                 log.debug(mapper.writeValueAsString(obj));

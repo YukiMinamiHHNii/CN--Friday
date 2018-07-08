@@ -41,7 +41,6 @@ public class MoveCategoryDAO extends DAO {
     }
 
     public List readAll() {
-
         List movCats=null;
         Session session= connect();
 
@@ -58,7 +57,27 @@ public class MoveCategoryDAO extends DAO {
         }
 
         return movCats;
+    }
 
+    public List readByNameDesc(String input) {
+        List movCats=null;
+        Session session= connect();
+
+        try{
+
+            session.beginTransaction();
+            Query query= session.createQuery("FROM MoveCategory mc WHERE mc.name LIKE :input");
+            query.setParameter("input", "%" + input + "%");
+            movCats= query.getResultList();
+            session.getTransaction().commit();
+
+        }catch(Exception e){
+            log.debug("Error with transaction: " + e.getMessage());
+        }finally{
+            disconnect(session);
+        }
+
+        return movCats;
     }
 
     public MoveCategory readByID(int id){
@@ -84,15 +103,17 @@ public class MoveCategoryDAO extends DAO {
 
     }
 
-    public void updateObject(Object moveCat) {
+    public Object updateObject(Object moveCat) {
 
         Session session= connect();
+        Object result= null;
 
         try{
 
             session.beginTransaction();
             session.update(moveCat);
             session.getTransaction().commit();
+            result= moveCat;
 
         }catch(Exception e){
             log.debug("Error with transaction: " + e.getMessage());
@@ -100,23 +121,29 @@ public class MoveCategoryDAO extends DAO {
             disconnect(session);
         }
 
+        return result;
+
     }
 
-    public void deleteObject(Object moveCat) {
+    public boolean deleteObject(Object moveCat) {
 
         Session session= connect();
+        boolean result= false;
 
         try{
 
             session.beginTransaction();
             session.delete(moveCat);
             session.getTransaction().commit();
+            result= true;
 
         }catch (Exception e){
             log.debug("Error with transaction: " + e.getMessage());
         }finally {
             disconnect(session);
         }
+
+        return result;
 
     }
 
@@ -135,17 +162,21 @@ public class MoveCategoryDAO extends DAO {
                 log.debug(mapper.writeValueAsString(obj));
             }
 
+            log.debug("Read by name/desc test");
+            for (Object obj : dao.readByNameDesc("al")) {
+                log.debug(mapper.writeValueAsString(obj));
+            }
+
             log.debug("Read by ID test");
             MoveCategory testObject= dao.readByID(objectID);
             log.debug("Reading by ID: " + mapper.writeValueAsString(testObject));
 
             log.debug("Update test");
             testObject.setName("This is a test for object: " + objectID);
-            dao.updateObject(testObject);
-            log.debug("Update result: " + mapper.writeValueAsString(dao.readByID(objectID)));
+            log.debug("Update result: " + mapper.writeValueAsString(dao.updateObject(testObject)));
 
             log.debug("Delete test");
-            dao.deleteObject(testObject);
+            log.debug("Delete operation result: " + dao.deleteObject(testObject));
             for (Object obj : dao.readAll()) {
                 log.debug(mapper.writeValueAsString(obj));
             }

@@ -67,7 +67,6 @@ public class SpeciesDAO extends DAO {
     }
 
     public List readAllExcerpt(){
-
         List speciesExcerpt= null;
         Session session= connect();
 
@@ -87,7 +86,6 @@ public class SpeciesDAO extends DAO {
         }
 
         return speciesExcerpt;
-
     }
 
     public List readAllEntry(){
@@ -109,6 +107,30 @@ public class SpeciesDAO extends DAO {
 
         return speciesEntry;
 
+    }
+
+    public List readByNameDesc(String input) {
+        List speciesExcerpt= null;
+        Session session= connect();
+
+        try{
+
+            session.beginTransaction();
+            Query query= session.createQuery("SELECT DISTINCT se FROM SpeciesExcerpt se " +
+                    "LEFT JOIN FETCH se.ability " +
+                    "LEFT JOIN FETCH se.typing " +
+                    "WHERE se.name LIKE :input ");
+            query.setParameter("input", "%" + input + "%");
+            speciesExcerpt= query.getResultList();
+            session.getTransaction().commit();
+
+        }catch(Exception e){
+            log.debug("Error with transaction: " + e.getMessage());
+        }finally {
+            disconnect(session);
+        }
+
+        return speciesExcerpt;
     }
 
     public Species readByID(String speciesID){
@@ -189,15 +211,17 @@ public class SpeciesDAO extends DAO {
 
     }
 
-    public void updateObject(Object species) {
+    public Object updateObject(Object species) {
 
         Session session= connect();
+        Object result= null;
 
         try{
 
             session.beginTransaction();
             session.update(species);
             session.getTransaction().commit();
+            result= species;
 
         }catch(Exception e){
             log.debug("Error with transaction: " + e.getMessage());
@@ -205,23 +229,29 @@ public class SpeciesDAO extends DAO {
             disconnect(session);
         }
 
+        return result;
+
     }
 
-    public void deleteObject(Object species) {
+    public boolean deleteObject(Object species) {
 
         Session session= connect();
+        boolean result= false;
 
         try{
 
             session.beginTransaction();
             session.delete(species);
             session.getTransaction().commit();
+            result= true;
 
         }catch(Exception e){
             log.debug("Error with transaction: " + e.getMessage());
         }finally {
             disconnect(session);
         }
+
+        return result;
 
     }
 
@@ -267,20 +297,21 @@ public class SpeciesDAO extends DAO {
                 log.debug("Reading all objects: " + mapper.writeValueAsString(obj));
             }
 
+            log.debug("Read by name/desc test");
+            for (Object obj : dao.readByNameDesc("chu")) {
+                log.debug(mapper.writeValueAsString(obj));
+            }
+
             log.debug("Read by ID test");
             Species testObject= dao.readByID(objectID);
             log.debug("Reading by ID: " + mapper.writeValueAsString(testObject));
 
             log.debug("Update test");
             testObject.setName("UpdatedSpecies");
-            dao.updateObject(testObject);
-            log.debug("Update result: " + mapper.writeValueAsString(dao.readByID(objectID)));
+            log.debug("Update result: " + mapper.writeValueAsString(dao.updateObject(testObject)));
 
             log.debug("Delete test");
-            dao.deleteObject(testObject);
-            for (Object obj : dao.readAll()) {
-                log.debug(mapper.writeValueAsString(obj));
-            }
+            log.debug("Delete operation result: " + dao.deleteObject(testObject));
 
             log.debug("Reading all excerpts");
             for (Object obj: dao.readAllExcerpt()){

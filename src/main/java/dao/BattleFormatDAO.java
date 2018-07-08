@@ -39,7 +39,6 @@ public class BattleFormatDAO extends DAO {
     }
 
     public List readAll() {
-
         List formats= null;
         Session session= connect();
 
@@ -53,6 +52,48 @@ public class BattleFormatDAO extends DAO {
         }catch(Exception e){
             log.debug("Error with transaction: " + e.getMessage());
         }finally {
+            disconnect(session);
+        }
+
+        return formats;
+    }
+
+    public List readAllExcerpt(){
+        List formats= null;
+        Session session= connect();
+
+        try{
+
+            session.beginTransaction();
+            formats= session.createQuery("FROM BattleFormatExcerpt").list();
+            session.getTransaction().commit();
+
+        }catch(Exception e){
+            log.debug("Error with transaction: " + e.getMessage());
+        }finally{
+            disconnect(session);
+        }
+
+        return formats;
+    }
+
+    public List readByNameDesc(String input) {
+        List formats= null;
+        Session session= connect();
+
+        try{
+
+            session.beginTransaction();
+            Query query= session.createQuery("SELECT DISTINCT bf FROM BattleFormat bf " +
+                    "LEFT JOIN FETCH bf.restrictedSpecies " +
+                    "WHERE bf.name LIKE :input OR bf.description LIKE :input");
+            query.setParameter("input", "%" + input + "%");
+            formats= query.getResultList();
+            session.getTransaction().commit();
+
+        }catch(Exception e){
+            log.debug("Error with transaction: " + e.getMessage());
+        }finally{
             disconnect(session);
         }
 
@@ -83,35 +124,17 @@ public class BattleFormatDAO extends DAO {
         return format;
     }
 
-    public List readAllExcerpt(){
-
-        List formats= null;
-        Session session= connect();
-
-        try{
-
-            session.beginTransaction();
-            formats= session.createQuery("FROM BattleFormatExcerpt").list();
-            session.getTransaction().commit();
-
-        }catch(Exception e){
-            log.debug("Error with transaction: " + e.getMessage());
-        }finally{
-            disconnect(session);
-        }
-
-        return formats;
-    }
-
-    public void updateObject(Object format) {
+    public Object updateObject(Object format) {
 
         Session session= connect();
+        Object result= null;
 
         try{
 
             session.beginTransaction();
             session.update(format);
             session.getTransaction().commit();
+            result= format;
 
         }catch(Exception e){
             log.debug("Error with transaction: " + e.getMessage());
@@ -119,23 +142,29 @@ public class BattleFormatDAO extends DAO {
             disconnect(session);
         }
 
+        return result;
+
     }
 
-    public void deleteObject(Object format) {
+    public boolean deleteObject(Object format) {
 
         Session session= connect();
+        boolean result= false;
 
         try{
 
             session.beginTransaction();
             session.delete(format);
             session.getTransaction().commit();
+            result= true;
 
         }catch(Exception e){
             log.debug("Error with transaction: " + e.getMessage());
         }finally {
             disconnect(session);
         }
+
+        return result;
 
     }
 
@@ -160,7 +189,7 @@ public class BattleFormatDAO extends DAO {
 
         try {
             log.debug("Create object test");
-            BattleFormat nObject= new BattleFormat("TestBattleFormat", "CreateBattleFormat test", formatSpecies);
+            BattleFormat nObject= new BattleFormat("TestBattleFormat1", "CreateBattleFormat test", formatSpecies);
             int objectID= (int)dao.createObject(nObject);
             log.debug("New object id: " + objectID);
 
@@ -169,17 +198,21 @@ public class BattleFormatDAO extends DAO {
                 log.debug("Reading all objects: " + mapper.writeValueAsString(obj));
             }
 
+            log.debug("Read by name/desc test");
+            for (Object obj : dao.readByNameDesc("1")) {
+                log.debug(mapper.writeValueAsString(obj));
+            }
+
             log.debug("Read by ID test");
             BattleFormat testObject= dao.readByID(objectID);
             log.debug("Reading by ID: " + mapper.writeValueAsString(testObject));
 
             log.debug("Update test");
             testObject.setDescription("Update test for battleFormat");
-            dao.updateObject(testObject);
-            log.debug("Update result: " + mapper.writeValueAsString(dao.readByID(objectID)));
+            log.debug("Update result: " + mapper.writeValueAsString(dao.updateObject(testObject)));
 
             log.debug("Delete test");
-            dao.deleteObject(testObject);
+            log.debug("Delete operation result: " + dao.deleteObject(testObject));
             for (Object obj : dao.readAll()) {
                 log.debug(mapper.writeValueAsString(obj));
             }

@@ -36,7 +36,8 @@ public abstract class DAO {
 
     abstract public Object createObject(Object input);
     abstract public List readAll();
-    abstract public void updateObject(Object input);
-    abstract public void deleteObject(Object input);
+    abstract public List readByNameDesc(String input);
+    abstract public Object updateObject(Object input);
+    abstract public boolean deleteObject(Object input);
 
 }

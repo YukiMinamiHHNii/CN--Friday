@@ -9,6 +9,7 @@ public class MoveExcerpt {
     private String name;
     private int power;
     private int accuracy;
+    private String description;
     private Typing typing;
     private MoveCategory category;
 
@@ -28,6 +29,10 @@ public class MoveExcerpt {
 
     public void setAccuracy(int accuracy) {this.accuracy = accuracy;}
 
+    public String getDescription() {return description;}
+
+    public void setDescription(String description) {this.description = description;}
+
     public Typing getTyping() {return typing;}
 
     public void setTyping(Typing typing) {this.typing = typing;}
@@ -43,6 +48,7 @@ public class MoveExcerpt {
                 ", name='" + name + '\'' +
                 ", power=" + power +
                 ", accuracy=" + accuracy +
+                ", description=" + description +
                 ", typing=" + typing +
                 ", category=" + category +
                 '}';
