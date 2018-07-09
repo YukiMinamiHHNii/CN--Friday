@@ -45,8 +45,7 @@ public class AbilityController {
 
     @DeleteMapping("/ability/{id}")
     public boolean deleteAbility(@PathVariable("id") int abilityID){
-        Ability ability= abilityDAO.readByID(abilityID);
-        return abilityDAO.deleteObject(ability);
+        return abilityDAO.deleteObject(abilityDAO.readByID(abilityID));
     }
 
 }
