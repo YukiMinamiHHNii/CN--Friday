@@ -8,6 +8,14 @@ public class SpeciesEntry {
     private String speciesID;
     private String name;
 
+    public SpeciesEntry() {
+    }
+
+    public SpeciesEntry(String speciesID, String name) {
+        this.speciesID = speciesID;
+        this.name = name;
+    }
+
     public String getSpeciesID() {return speciesID;}
 
     public void setSpeciesID(String speciesID) {this.speciesID = speciesID;}
